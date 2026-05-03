@@ -2,13 +2,18 @@ package main
 
 import (
 	"log"
+	"os"
 	datab "todolist/internal/database"
 	th "todolist/internal/handlers"
 	router "todolist/internal/routes"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	connStr := "postgres://postgres:k14062007@localhost:5432/todo_app?sslmode=disable"
+	godotenv.Load()
+
+	connStr := os.Getenv("DB_URL")
 
 	db, err := datab.NewDB(connStr)
 	if err != nil {
