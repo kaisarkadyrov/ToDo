@@ -4,6 +4,7 @@ import (
 	"log"
 	datab "todolist/internal/database"
 	th "todolist/internal/handlers"
+	router "todolist/internal/routes"
 )
 
 func main() {
@@ -13,14 +14,17 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	r := router.SetupRouter(db)
 
 	// th.AddTodo(db, "Create a database")
 	// th.ToggleTodo(db, 2)
 	// th.ToggleTodo(db, 1)
 	// th.ToggleTodo(db, 3)
 	// th.DeleteTodo(db, 1)
-	th.AddTodo(db, "TEST")
+	// th.AddTodo(db, "TEST")
 	th.PrintTodos(db)
+
+	r.Run(":8080")
 
 	defer db.Close()
 }
