@@ -1,20 +1,26 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	datab "todolist/internal/database"
 	th "todolist/internal/handlers"
 )
 
 func main() {
-	todos := th.Todos{}
+	connStr := "postgres://postgres:k14062007@localhost:5432/todo_app?sslmode=disable"
 
-	todos.Add("Buy milk")
-	todos.Add("Read a book")
-	fmt.Println(todos)
-	todos.Toggle(1)
-	// todos.Toggle(1)
-	todos.Edit(0, "Buy book")
-	fmt.Println(todos)
+	db, err := datab.NewDB(connStr)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	todos.Print()
+	// th.AddTodo(db, "Create a database")
+	// th.ToggleTodo(db, 2)
+	// th.ToggleTodo(db, 1)
+	// th.ToggleTodo(db, 3)
+	// th.DeleteTodo(db, 1)
+	th.AddTodo(db, "TEST")
+	th.PrintTodos(db)
+
+	defer db.Close()
 }
